@@ -1,304 +1,219 @@
 # Nifty 500 Analytics Dashboard
-
-**From Chaos to Clarity: Transforming 30 Years of Indian Stock Market Data into Actionable Insights**
-
----
-
-## 🚀 TL;DR (Executive Summary)
-
-* Built an **end-to-end analytics pipeline** for **500 Nifty stocks across 30 years (1996–2025)**
-* Automated data collection, cleaning, transformation, and modeling using **Python + Power BI**
-* Converted raw prices into **returns, volatility, and Sharpe Ratio** for meaningful comparison
-* Designed an **interactive Power BI dashboard** to analyze risk-adjusted performance instantly
-* Demonstrated how **mathematics + data science** turn messy real-world data into clarity
+### From Chaos to Clarity: Transforming 30 Years of Indian Stock Market Data into Actionable Insights
 
 ---
 
-## 📌 Project Overview
+## Executive Summary
 
-This project presents a comprehensive **data analytics pipeline and interactive Power BI dashboard** built on **30 years of historical data for all 500 stocks in India’s Nifty 500 index (1996–2025)**.
+This project presents an end-to-end analytics pipeline built on 30 years of historical data for all 500 stocks in India's Nifty 500 index (1996–2025). Using Python for data engineering and Power BI for visualization, raw price data is converted into meaningful financial metrics — returns, volatility, and risk-adjusted performance — and surfaced through an interactive dashboard.
 
-What began as a **mathematics poster competition entry** evolved into a full-scale, real-world analytics solution that demonstrates how **mathematics, statistics, Python, and data visualization** come together to solve complex financial problems.
+---
+
+## Project Overview
+
+What began as a mathematics poster competition entry evolved into a full-scale analytics solution demonstrating how mathematics, statistics, Python, and data visualization work together to solve complex financial problems.
 
 The dashboard enables users to:
 
-* Compare any Nifty 500 stock
-* Measure risk and returns
-* Identify top and bottom performers
-* Analyze long-term market behavior interactively
+- Compare any stock within the Nifty 500
+- Measure risk and return across custom date ranges
+- Identify top and bottom performers by risk-adjusted return
+- Analyze long-term market behavior interactively
 
 ---
 
-## 🏫 Event Details
+## Event Details
 
-* **Presented at:** Dr. S. B. Nimse Amrit Mahotsav – Poster Exhibition
-* **Date:** November 12, 2025
-* **Venue:** Mathematics Department, New Arts, Commerce and Science College, Ahmednagar
-* **Organized by:**
+**Presented at:** Dr. S. B. Nimse Amrit Mahotsav – Poster Exhibition  
+**Date:** November 12, 2025  
+**Venue:** Mathematics Department, New Arts, Commerce and Science College, Ahmednagar  
 
-  * Mathematics Department, NACSC
-  * Savitribai Phule Pune University
-  * Indian Mathematical Society
-  * Alumni Association
+**Organized by:** Mathematics Department (NACSC), Savitribai Phule Pune University, Indian Mathematical Society, Alumni Association
 
 ---
 
-## 👥 Project Team
+## Project Team
 
-* **Girish Sabale** – Project Lead, Dashboard Design & Visualization
-* **Ganesh Gangarde** – Data Collection & Integration Pipeline
-* **Babita Mourya** – Data Transformation & Statistical Analysis
-
----
-
-## 🎯 Problem Statement
-
-Analyzing **500 stocks over 30 years** presents several challenges:
-
-* Massive data volume
-* Missing values due to market holidays
-* Inconsistent data formats
-* Difficulty comparing stocks directly
-
-Raw stock prices alone are misleading. Meaningful analysis requires **percentage returns, volatility, and risk-adjusted metrics**.
+| Name | Role |
+|---|---|
+| Girish Sabale | Project Lead, Dashboard Design & Visualization |
+| Ganesh Gangarde | Data Collection & Integration Pipeline |
+| Babita Mourya | Data Transformation & Statistical Analysis |
 
 ---
 
-## ✅ Solution Summary
+## Problem Statement
 
-We built a **six-phase analytics pipeline**:
+Analyzing 500 stocks over three decades presents several challenges:
 
-1. **Automated data collection** using Python
-2. **Consolidation** of 500 individual stock files
-3. **Transformation** from prices to percentage returns
-4. **Restructuring** data for analytics (Unpivoting)
-5. **Mathematical modeling** using DAX
-6. **Interactive Power BI dashboard** design
+- Massive data volume requiring efficient storage and processing
+- Missing values caused by market holidays and trading halts
+- Inconsistent data formats across sources
+- Raw stock prices that are not directly comparable across stocks or time periods
 
----
-
-## 🔄 Project Workflow
-
-### Phase 1: Data Collection
-
-* Source: Yahoo Finance
-* Tool: `yfinance` (Python)
-* Data: Daily OHLC prices for 500 stocks (1996–2025)
-* Output: 500 CSV files (~500+ MB)
+Meaningful analysis requires transformation from raw prices into percentage returns, volatility, and risk-adjusted metrics.
 
 ---
 
-### Phase 2: Data Consolidation
+## Pipeline Overview
 
-* Extracted **Date** and **Close Price** from each file
-* Merged all stocks into a single dataset using Date as the key
-* Result: One master CSV with **501 columns** (Date + 500 stocks)
+The solution is structured as a six-phase analytics pipeline.
 
----
+### Phase 1 — Data Collection
+- **Source:** Yahoo Finance via the `yfinance` Python library
+- **Scope:** Daily OHLC prices for 500 stocks from 1996 to 2025
+- **Output:** 500 individual CSV files (~500 MB total)
 
-### Phase 3: Price to Returns Conversion
+### Phase 2 — Data Consolidation
+- Extracted `Date` and `Close Price` from each file
+- Merged all 500 files into a single master dataset using `Date` as the join key
+- **Result:** One CSV with 501 columns (Date + 500 stock tickers)
 
-* Filled missing values using forward-fill
-* Converted prices to **daily percentage returns**
-
-**Formula:**
-`Daily Return = ((Price_today - Price_yesterday) / Price_yesterday) × 100`
-
----
-
-### Phase 4: Power BI Transformation (Breakthrough Phase)
-
-* Problem: 500 stocks stored as columns (wide format)
-* Solution: **Unpivot transformation** in Power Query
-
-**Result:**
-
-* Date
-* Stock Name
-* Daily Return
-
-This step made filtering, comparison, and visualization possible.
-
-**Key Fix:**
-
-* Converted Daily Return from text to decimal
-* Replaced NaN and error values
-
----
-
-### Phase 5: Analytics Engine (DAX Measures)
-
-**1. Average Daily Return**
+### Phase 3 — Price-to-Returns Conversion
+- Applied forward-fill to handle missing values from non-trading days
+- Converted closing prices to daily percentage returns
 
 ```
+Daily Return = ((Price_today - Price_yesterday) / Price_yesterday) × 100
+```
+
+### Phase 4 — Power BI Transformation
+- **Problem:** 500 stock columns (wide format) cannot be filtered or visualized efficiently
+- **Solution:** Unpivot transformation in Power Query converts wide to long format
+- **Result:** Three-column structure — `Date`, `Stock Name`, `Daily Return`
+- Fixed data type issues: converted `Daily Return` from text to decimal and replaced NaN/error values
+
+### Phase 5 — Analytics Engine (DAX Measures)
+
+**Average Daily Return**
+```dax
 AVERAGE(Returns[Daily Return])
 ```
 
-**2. Volatility (Risk)**
-
-```
+**Volatility (Standard Deviation)**
+```dax
 STDEV.P(Returns[Daily Return])
 ```
 
-**3. Annualized Sharpe Ratio**
-
-```
+**Annualized Sharpe Ratio**
+```dax
 (Avg Daily Return / Volatility) * SQRT(252)
 ```
 
-**4. Cumulative Trend Line**
-Robust calculation with error handling for long time series.
+**Cumulative Trend Line** — implemented with error handling for long time series stability.
+
+### Phase 6 — Dashboard Design
+
+**Page 1: Welcome Screen**
+- Project overview and team details
+- Navigation to the Insights Dashboard
+
+**Page 2: Insights Dashboard**
+
+*Controls:*
+- Stock Selector (all 500 stocks)
+- Date Range Slicer
+
+*Key Metrics:*
+- Average Daily Return
+- Volatility
+- Sharpe Ratio
+
+*Visualizations:*
+- Stock Performance Line Chart
+- Risk–Return Treemap (all 500 stocks)
+- Top 10 and Bottom 10 Sharpe Ratio Stocks
+- Top 10 Most Volatile Stocks
 
 ---
 
-### Phase 6: Dashboard Design
+## Mathematical & Statistical Foundations
 
-#### Page 1: Welcome Screen
-
-* Project overview
-* Team details
-* Navigation button
-
-#### Page 2: Insights Dashboard
-
-**Controls**
-
-* Stock Selector (500 stocks)
-* Date Range Slicer
-
-**Key Metrics**
-
-* Average Daily Return
-* Volatility
-* Sharpe Ratio
-
-**Visualizations**
-
-* Stock Performance Line Chart
-* Risk–Return Treemap (all 500 stocks)
-* Top 10 Sharpe Ratio Stocks
-* Bottom 10 Sharpe Ratio Stocks
-* Top 10 Most Volatile Stocks
+**Statistics:** Mean, Standard Deviation, Percentage Change  
+**Financial Mathematics:** Daily Returns, Risk vs. Return, Sharpe Ratio, Annualization Factor (√252)  
+**Data Science:** Wide-to-long normalization, time-series analysis, error handling, pipeline optimization
 
 ---
 
-## 📐 Mathematical & Statistical Foundations
+## Challenges & Solutions
 
-### Statistics
-
-* Mean
-* Standard Deviation
-* Percentage Change
-
-### Financial Mathematics
-
-* Daily Returns
-* Risk vs Return
-* Sharpe Ratio
-* Annualization Factor (√252)
-
-### Data Science Principles
-
-* Data normalization (wide → long)
-* Time-series analysis
-* Error handling
-* Pipeline optimization
+| Challenge | Solution |
+|---|---|
+| Massive data volume | Incremental merging and optimized pandas operations |
+| Missing data from market holidays | Forward-fill interpolation |
+| NaN values imported as text strings | Data type conversion and explicit error replacement |
+| Dashboard performance lag | Optimized DAX measure design |
+| Tight competition deadline | Clear division of responsibilities across team members |
 
 ---
 
-## 🚧 Challenges & Solutions
+## Dataset Scale
 
-| Challenge            | Solution                                   |
-| -------------------- | ------------------------------------------ |
-| Huge data volume     | Incremental merging & optimized pandas ops |
-| Missing data         | Forward-fill interpolation                 |
-| NaN imported as text | Data type conversion & error replacement   |
-| Dashboard lag        | Optimized DAX measures                     |
-| Tight deadline       | Clear role division                        |
-
----
-
-## 📊 Dataset Scale
-
-* **Stocks:** 500 (Nifty 500)
-* **Time Period:** 1996–2025
-* **Records:** ~500,000+ data points
-* **Final PBIX Size:** 500+ MB
+| Attribute | Value |
+|---|---|
+| Stocks | 500 (Nifty 500 Index) |
+| Time Period | 1996–2025 |
+| Total Records | ~500,000+ data points |
+| Final PBIX File Size | 500+ MB |
 
 ---
 
-## 🧠 Key Learnings
-
-* Real-world data is messy
-* Data structure matters more than tools
-* Simple solutions are often the most robust
-* Collaboration accelerates problem-solving
-* Mathematics powers modern analytics
-
----
-
-## 🧪 How to Run / Reproduce This Project
+## How to Reproduce
 
 1. Run the Python scripts to download historical stock data using `yfinance`
-2. Merge individual stock CSV files into a master dataset
+2. Merge the 500 individual CSV files into a single master dataset
 3. Convert price data into daily percentage returns
-4. Load the final CSV into Power BI Desktop
-5. Use **Power Query → Unpivot Columns** to normalize the dataset
+4. Load the master CSV into Power BI Desktop
+5. Apply Power Query → Unpivot Columns to normalize the dataset
 6. Create DAX measures for return, volatility, and Sharpe Ratio
 7. Refresh visuals and explore insights
 
 ---
 
-## 🔮 Future Enhancements
+## Tools & Technologies
 
-### Technical
-
-* Live market data integration
-* Predictive analytics (ML)
-* Portfolio optimization
-* Correlation & sector analysis
-
-### Usability
-
-* Mobile responsiveness
-* Exportable reports
-* Saved views & alerts
-
-### Scalability
-
-* Cloud databases (Azure SQL / Snowflake)
-* Incremental refresh
-* Global market expansion
+- **Python 3.x** — `pandas`, `yfinance`, `os`
+- **Power BI Desktop**
+- **Power Query (M)**
+- **DAX**
 
 ---
 
-## 🛠 Tools & Technologies
+## Future Enhancements
 
-* **Python 3.x** (pandas, yfinance, os)
-* **Power BI Desktop**
-* **Power Query (M)**
-* **DAX**
+**Technical**
+- Live market data integration
+- Predictive analytics using machine learning
+- Portfolio optimization modeling
+- Correlation and sector-level analysis
 
----
+**Usability**
+- Mobile-responsive layout
+- Exportable reports
+- Saved views and alert thresholds
 
-## 📬 Contact
-
-**Girish Sabale**
-Project Lead – Data Visualization
-LinkedIn: [https://linkedin.com/in/girishsabale](https://linkedin.com/in/girishsabale)
-
----
-
-> “From chaos to clarity — that’s the power of mathematics, computation, and systematic thinking.”
-
-If you’re a student, researcher, or enthusiast interested in financial analytics or data science, feel free to connect or collaborate!
+**Scalability**
+- Cloud database backends (Azure SQL / Snowflake)
+- Incremental data refresh
+- Expansion to global market indices
 
 ---
 
-## 🏁 Final Note
+## Key Learnings
 
-This project proves that **mathematics is not just theoretical—it is operational**. When paired with automation, statistics, and visualization, it becomes a powerful engine for decision-making.
+- Real-world financial data is inherently messy and requires deliberate cleaning
+- Data structure decisions have a greater impact on performance than tool selection
+- Simple, robust solutions outperform complex ones in production environments
+- Clear team roles and task ownership accelerate delivery under time constraints
+- Statistical rigor transforms raw numbers into genuine decision-making tools
 
-What started as a poster competition evolved into a **production-scale analytics system**. Regardless of awards, the real success lies in building something robust, insightful, and real.
+---
 
-> *From chaos to clarity—that is the power of systematic thinking.*
+## Contact
+
+**Girish Sabale** — Project Lead, Data Visualization  
+LinkedIn: [linkedin.com/in/girishsabale](https://linkedin.com/in/girishsabale)
+
+---
+
+*Mathematics is not just theoretical — it is operational. When paired with automation, statistics, and visualization, it becomes a powerful engine for decision-making.*
